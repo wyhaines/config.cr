@@ -70,9 +70,14 @@ class Config
     new(source)
   end
 
+  # 
   def self.from(source : IO, format : String = "json")
-    raise "" if format != "json"
-    from(JSON.parse(source).as_h).tap(&.serialization_format=("json"))
+    case format
+    when "json"
+      from(JSON.parse(source).as_h).tap(&.serialization_format=("json"))
+    else
+      from(YAML.parse(source).as_h).tap(&.serialization_format=("yaml")
+    end
   rescue ex
     from(YAML.parse(source.rewind).as_h).tap(&.serialization_format=("yaml"))
   end

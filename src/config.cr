@@ -40,7 +40,6 @@ require "./version"
 # config = Config.from("config.txt") # {also_verbose : true}
 # pp config.also_verbose             # => true
 # ```
-
 class Config
   # The Config hash will accept values of String, Int32, or Bool.
   alias ConfigTypes = String | Int32 | Bool

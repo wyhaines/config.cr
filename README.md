@@ -4,8 +4,7 @@
 
 # config
 
-An instance of `Config` provides a `Hash(String, String | Int | Bool)` that can be accessed
-via method calls. The method names are the keys of the hash.
+An instance of `Config` provides a `Hash(String, String | Int | Bool)` that can be accessed via method calls. The method names are the keys of the hash. It also provides facilities to serialize a configuration out to a JSON or YAML file, and to read a JSON or YAML file as a configuration.
 
 
 ```

@@ -1,5 +1,6 @@
 require "yaml"
 require "json"
+require "./format"
 require "./version"
 
 # An instance of `Config` provides a `Hash(String, String | Int | Bool)` that is accessed
@@ -47,10 +48,11 @@ class Config
   # The configuration is stored within a constant.
   DATA = Hash(String, ConfigTypes).new
 
-  # The default serialization format is *JSON*. If the config file reads from a file
+  # The default serialization format is `JSON`. If the config file reads from a file
   # which cannot be read as JSON, but can be read as YAML, then the default format will
-  # change to `yaml`.
-  getter serialization_format : String = "json"
+  # change to `YAML`. This property can also be set manually if one wants to specify the
+  # format to use to serialize the config data.
+  property serialization_format : Format = Format::JSON
 
   # Return the raw config data hash.
   #
@@ -70,27 +72,33 @@ class Config
     new(source)
   end
 
-  # 
-  def self.from(source : IO, format : String = "json")
+  # Create a new `Config` instance from an `IO` object. The format of the data is assumed
+  # to be JSON unless otherwise specified. However, if the file can not be parsed as JSON
+  # data, the IO will be rewound, and the data will be parsed as YAML.
+  def self.from(source : IO, format : Format = Format::JSON)
     case format
-    when "json"
-      from(JSON.parse(source).as_h).tap(&.serialization_format=("json"))
+    when Format::JSON
+      from(::JSON.parse(source).as_h).tap(&.serialization_format=(Format::JSON))
     else
-      from(YAML.parse(source).as_h).tap(&.serialization_format=("yaml")
+      from(::YAML.parse(source).as_h).tap(&.serialization_format=(Format::YAML))
     end
   rescue ex
-    from(YAML.parse(source.rewind).as_h).tap(&.serialization_format=("yaml"))
+    from(::YAML.parse(source.rewind).as_h).tap(&.serialization_format=(Format::YAML))
   end
 
+  # Create a new `Config` instance from a `Path` specifing the file to read.
   def self.from(source : Path)
-    format = source =~ /\.ya?ml$/ ? "yaml" : "json"
+    format = source =~ /\.ya?ml$/ ? Format::YAML : Format::JSON
     File.open(source) { |fh| from(fh, format) }
   end
 
+  # Create a new `Config` instance from a `String` specifing the path of the file to read.
   def self.from(source : String)
     from(Path.new(source))
   end
 
+  # Instantiate a new `Config` instance from a `Hash`. Keys will be turned into `String`,
+  # and values other than `Bool` and `Int32` will be turned into `String`, as well.
   def self.new(source : Hash(_, _))
     obj = Config.new
     source.each do |key, value|
@@ -100,27 +108,16 @@ class Config
     obj
   end
 
-  def serialization_format=(format)
-    @serialization_format = case format.to_s
-                            when "json" then "json"
-                            when "yaml" then "yaml"
-                            else
-                              raise "Unknown serialization format: #{format}; must be 'json' or 'yaml'"
-                            end
-  end
-
   def into(target : Hash(_, _))
     target.merge!(data)
   end
 
   def into(target : IO)
     case serialization_format
-    when "json"
+    when JSON
       target.write(data.to_json)
-    when "yaml"
+    when YAML
       target.write(data.to_yaml)
-    else
-      raise "Unknown serialization format: #{serialization_format}"
     end
   end
 

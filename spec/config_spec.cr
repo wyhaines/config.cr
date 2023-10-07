@@ -60,6 +60,7 @@ describe Config do
     config["bif"].should eq "baz"
     config.true.should be_true
     config["onetwothree"].should eq 123
+    config.serialization_format.should eq Config::Format::YAML
   end
 
   it "can read configuration from a JSON file" do
@@ -70,6 +71,7 @@ describe Config do
     config.true.should be_true
     config.false.should eq "false"
     config["onetwothree"].should eq 123
+    config.serialization_format.should eq Config::Format::JSON
   end
 
   it "can read configuration from a file (YAML) without a clear extension" do
@@ -79,5 +81,6 @@ describe Config do
     config["bif"].should eq "baz"
     config.true.should be_true
     config["onetwothree"].should eq 123
+    config.serialization_format.should eq Config::Format::YAML
   end
 end

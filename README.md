@@ -13,7 +13,7 @@ An instance of `Config` provides a `Hash(String, String | Int | Bool)` that can 
    ```yaml
    dependencies:
      config:
-       github: your-github-user/config
+       github: wyhaines/config.cr
    ```
 
 2. Run `shards install`

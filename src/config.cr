@@ -108,10 +108,12 @@ class Config
     obj
   end
 
+  # Insert the data from the this `Config`s hash into the `target` hash.
   def into(target : Hash(_, _))
     target.merge!(data)
   end
 
+  # Serialize the data from this `Config` instance into the `target` IO object.
   def into(target : IO)
     case serialization_format
     when JSON
@@ -121,15 +123,17 @@ class Config
     end
   end
 
+  # Serialize the data from this `Config` instance into the `target` file specified by the `Path`.
   def into(target : Path)
     File.open(target, "w+") { |fh| into(fh) }
   end
 
+  # Serialize the data from this `Config` instance into the `target` file specified by the `String`.
   def into(target : String)
     into(Path.new(target))
   end
 
-  # This macro writes the code to write to or access the configuration hash.
+  # This macro writes the code for writing to or accessing the configuration hash.
   macro method_missing(call)
       {% if call.name == "[]" %}
         DATA[{{ call.args[0].id }}]

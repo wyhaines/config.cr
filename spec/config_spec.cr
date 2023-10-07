@@ -55,7 +55,7 @@ describe Config do
 
   it "can read configuration from a YAML file" do
     config = Config.from("./spec/data.yml")
-    
+
     config.foo.should eq "bar"
     config["bif"].should eq "baz"
     config.true.should be_true
@@ -64,7 +64,7 @@ describe Config do
 
   it "can read configuration from a JSON file" do
     config = Config.from("./spec/data.json")
-    
+
     config.foo.should eq "bar"
     config["bif"].should eq "baz"
     config.true.should be_true
@@ -74,7 +74,7 @@ describe Config do
 
   it "can read configuration from a file (YAML) without a clear extension" do
     config = Config.from("./spec/data.txt")
-    
+
     config.foo.should eq "bar"
     config["bif"].should eq "baz"
     config.true.should be_true

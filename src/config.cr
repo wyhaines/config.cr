@@ -1,5 +1,6 @@
 require "yaml"
 require "json"
+require "./version"
 
 # An instance of `Config` provides a `Hash(String, String | Int | Bool)` that is accessed
 # via method calls. The method names are the keys of the hash.
@@ -30,13 +31,13 @@ require "json"
 #
 # ```
 # config = Config.from("config.json") # {"verbose" : "true"}
-# pp config.verbose # => "true"
+# pp config.verbose                   # => "true"
 #
 # config = Config.from("config.yaml") # {verbose : true}
-# pp config.verbose # => true
+# pp config.verbose                   # => true
 #
 # config = Config.from("config.txt") # {also_verbose : true}
-# pp config.also_verbose # => true
+# pp config.also_verbose             # => true
 # ```
 
 class Config
@@ -62,17 +63,18 @@ class Config
     DATA
   end
 
+  # Create a new `Config` instance from a hash. Keys will be turned into `String`, and
+  # values, if they are a type other than `Bool`, `Int32`, or `String`, will be turned
+  # into `String` as well.
   def self.from(source : Hash(_, _))
     new(source)
   end
 
   def self.from(source : IO, format : String = "json")
-    begin
-      raise "" if format != "json"
-      from(JSON.parse(source).as_h).tap { |obj| obj.serialization_format = "json" }
-    rescue ex
-      from(YAML.parse(source.rewind).as_h).tap { |obj| obj.serialization_format = "yaml" }
-    end
+    raise "" if format != "json"
+    from(JSON.parse(source).as_h).tap(&.serialization_format=("json"))
+  rescue ex
+    from(YAML.parse(source.rewind).as_h).tap(&.serialization_format=("yaml"))
   end
 
   def self.from(source : Path)
@@ -83,7 +85,7 @@ class Config
   def self.from(source : String)
     from(Path.new(source))
   end
-  
+
   def self.new(source : Hash(_, _))
     obj = Config.new
     source.each do |key, value|

@@ -1,3 +1,3 @@
-class ToposPlayground
+class Config
   VERSION = {{ read_file("#{__DIR__}/../VERSION").chomp }}
 end

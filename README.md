@@ -6,6 +6,10 @@
 
 An instance of `Config` provides a `Hash(String, String | Int | Bool)` that can be accessed via method calls. The method names are the keys of the hash. It also provides facilities to serialize a configuration out to a JSON or YAML file, and to read a JSON or YAML file as a configuration.
 
+## Full Documentation
+
+[https://wyhaines.github.io/config.cr/](https://wyhaines.github.io/config.cr/)
+
 ## Installation
 
 1. Add the dependency to your `shard.yml`:

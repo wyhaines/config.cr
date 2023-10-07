@@ -53,8 +53,27 @@ describe Config do
     config.undefined_value?.should be_falsey
   end
 
-  it "can read a configuration from a file" do
+  it "can read configuration from a YAML file" do
     config = Config.from("./spec/data.yml")
+    
+    config.foo.should eq "bar"
+    config["bif"].should eq "baz"
+    config.true.should be_true
+    config["onetwothree"].should eq 123
+  end
+
+  it "can read configuration from a JSON file" do
+    config = Config.from("./spec/data.json")
+    
+    config.foo.should eq "bar"
+    config["bif"].should eq "baz"
+    config.true.should be_true
+    config.false.should eq "false"
+    config["onetwothree"].should eq 123
+  end
+
+  it "can read configuration from a file (YAML) without a clear extension" do
+    config = Config.from("./spec/data.txt")
     
     config.foo.should eq "bar"
     config["bif"].should eq "baz"

@@ -24,6 +24,21 @@ require "json"
 # pp config.data # => {"verbose" => true}
 # ```
 #
+# The `Config` class can be initialized from an `IO`, or a `Path`/`String` that points to a
+# file. The file can be in either JSON or YAML format. The default format is JSON, but if
+# the file cannot be read as JSON, but can be read as YAML, then the format will change to YAML.
+#
+# ```
+# config = Config.from("config.json") # {"verbose" : "true"}
+# pp config.verbose # => "true"
+#
+# config = Config.from("config.yaml") # {verbose : true}
+# pp config.verbose # => true
+#
+# config = Config.from("config.txt") # {also_verbose : true}
+# pp config.also_verbose # => true
+# ```
+
 class Config
   # The Config hash will accept values of String, Int32, or Bool.
   alias ConfigTypes = String | Int32 | Bool
@@ -48,12 +63,7 @@ class Config
   end
 
   def self.from(source : Hash(_, _))
-    obj = Config.new
-    source.each do |key, value|
-      obj.data[key.to_s] = value.as_bool? || value.as_i? || value.to_s
-    end
-
-    obj
+    new(source)
   end
 
   def self.from(source : IO, format : String = "json")
@@ -72,6 +82,15 @@ class Config
 
   def self.from(source : String)
     from(Path.new(source))
+  end
+  
+  def self.new(source : Hash(_, _))
+    obj = Config.new
+    source.each do |key, value|
+      obj.data[key.to_s] = value.as_bool? || value.as_i? || value.to_s
+    end
+
+    obj
   end
 
   def serialization_format=(format)

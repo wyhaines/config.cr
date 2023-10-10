@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.9.2">
+<meta name="crystal_docs.project_version" content="main">
+<meta name="crystal_docs.project_name" content="config">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="config">
+  <title>Config - config main</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          config
+        </a>
+      </h1>
+
+      <span class="project-version">
+        main
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="config/Config" data-name="config">
+      <a href="Config.html">Config</a>
+      
+        <ul>
+  
+  <li class=" " data-id="config/Config/ConfigTypes" data-name="config::configtypes">
+      <a href="Config/ConfigTypes.html">ConfigTypes</a>
+      
+    </li>
+  
+  <li class=" " data-id="config/Config/Format" data-name="config::format">
+      <a href="Config/Format.html">Format</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Config
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="Config.html">Config</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>An instance of <code><a href="Config.html">Config</a></code> provides a <code>Hash(String, String | Int | Bool)</code> that is accessed
+via method calls. The method names are the keys of the hash.</p>
+<p>For example:</p>
+<pre><code class="language-crystal">config <span class="o">=</span> <span class="t">Config</span>.new
+
+config.verbose <span class="o">=</span> <span class="n">true</span>
+pp config.verbose <span class="c"># =&gt; true</span>
+<span class="k">if</span> config.quiet?  <span class="c"># =&gt; false</span>
+  puts <span class="s">&quot;be quiet&quot;</span>
+<span class="k">else</span>
+  puts <span class="s">&quot;don&#39;t be quiet&quot;</span> <span class="c"># =&gt; &quot;don&#39;t be quiet&quot;</span>
+<span class="k">end</span></code></pre>
+<p>The <code><a href="Config.html#data-instance-method">#data</a></code> method will return the raw data hash.</p>
+<pre><code class="language-crystal">pp config.data <span class="c"># =&gt; {&quot;verbose&quot; =&gt; true}</span></code></pre>
+<p>The <code><a href="Config.html">Config</a></code> class can be initialized from an <code>IO</code>, or a <code>Path</code>/<code>String</code> that points to a
+file. The file can be in either JSON or YAML format. The default format is JSON, but if
+the file cannot be read as JSON, but can be read as YAML, then the format will change to YAML.</p>
+<pre><code class="language-crystal">config <span class="o">=</span> <span class="t">Config</span>.from(<span class="s">&quot;config.json&quot;</span>) <span class="c"># {&quot;verbose&quot; : &quot;true&quot;}</span>
+pp config.verbose                   <span class="c"># =&gt; &quot;true&quot;</span>
+
+config <span class="o">=</span> <span class="t">Config</span>.from(<span class="s">&quot;config.yaml&quot;</span>) <span class="c"># {verbose : true}</span>
+pp config.verbose                   <span class="c"># =&gt; true</span>
+
+config <span class="o">=</span> <span class="t">Config</span>.from(<span class="s">&quot;config.txt&quot;</span>) <span class="c"># {also_verbose : true}</span>
+pp config.also_verbose             <span class="c"># =&gt; true</span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L43" target="_blank">
+        config.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/format.cr#L1" target="_blank">
+        format.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/version.cr#L1" target="_blank">
+        version.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="DATA">
+        <strong>DATA</strong> = <code><span class="t">Hash</span>(<span class="t">String</span>, <span class="t">ConfigTypes</span>).new</code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>The configuration is stored within a constant.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="VERSION">
+        <strong>VERSION</strong> = <code><span class="o">{{</span> (read_file(<span class="s">&quot;/home/runner/work/config.cr/config.cr/src/../VERSION&quot;</span>)).chomp }}</code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>The current version of the shard. This is read from the VERSION file by a precompilation macro.</p>
+      </dd>
+      
+    
+  </dl>
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28source%3AHash%28_%2C_%29%29-class-method" class="signature"><strong>.new</strong>(source : Hash(_, _))</a>
+        
+          <div class="summary"><p>Instantiate a new <code><a href="Config.html">Config</a></code> instance from a <code>Hash</code>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#from%28source%3AHash%28_%2C_%29%29-class-method" class="signature"><strong>.from</strong>(source : Hash(_, _))</a>
+        
+          <div class="summary"><p>Create a new <code><a href="Config.html">Config</a></code> instance from a hash.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#from%28source%3AIO%2Cformat%3AFormat%3DFormat%3A%3AJSON%29-class-method" class="signature"><strong>.from</strong>(source : IO, format : Format = <span class="t">Format</span><span class="t">::</span><span class="t">JSON</span>)</a>
+        
+          <div class="summary"><p>Create a new <code><a href="Config.html">Config</a></code> instance from an <code>IO</code> object.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#from%28source%3APath%29-class-method" class="signature"><strong>.from</strong>(source : Path)</a>
+        
+          <div class="summary"><p>Create a new <code><a href="Config.html">Config</a></code> instance from a <code>Path</code> specifing the file to read.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#from%28source%3AString%29-class-method" class="signature"><strong>.from</strong>(source : String)</a>
+        
+          <div class="summary"><p>Create a new <code><a href="Config.html">Config</a></code> instance from a <code>String</code> specifing the path of the file to read.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#data-instance-method" class="signature"><strong>#data</strong></a>
+        
+          <div class="summary"><p>Return the raw config data hash.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#into%28target%3AHash%28_%2C_%29%29-instance-method" class="signature"><strong>#into</strong>(target : Hash(_, _))</a>
+        
+          <div class="summary"><p>Insert the data from the this <code><a href="Config.html">Config</a></code>s hash into the <code>target</code> hash.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#into%28target%3AIO%29-instance-method" class="signature"><strong>#into</strong>(target : IO)</a>
+        
+          <div class="summary"><p>Serialize the data from this <code><a href="Config.html">Config</a></code> instance into the <code>target</code> IO object.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#into%28target%3APath%29-instance-method" class="signature"><strong>#into</strong>(target : Path)</a>
+        
+          <div class="summary"><p>Serialize the data from this <code><a href="Config.html">Config</a></code> instance into the <code>target</code> file specified by the <code>Path</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#into%28target%3AString%29-instance-method" class="signature"><strong>#into</strong>(target : String)</a>
+        
+          <div class="summary"><p>Serialize the data from this <code><a href="Config.html">Config</a></code> instance into the <code>target</code> file specified by the <code>String</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialization_format%3AFormat-instance-method" class="signature"><strong>#serialization_format</strong> : Format</a>
+        
+          <div class="summary"><p>The default serialization format is <code>JSON</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialization_format%3D%28serialization_format%3AFormat%29-instance-method" class="signature"><strong>#serialization_format=</strong>(serialization_format : Format)</a>
+        
+          <div class="summary"><p>The default serialization format is <code>JSON</code>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="macro-summary" class="anchor" href="#macro-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#method_missing%28call%29-macro" class="signature"><strong>method_missing</strong>(call)</a>
+        
+          <div class="summary"><p>This macro writes the code for writing to or accessing the configuration hash.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(source:Hash(_,_))-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(source : Hash(_, _))
+
+        <a class="method-permalink" href="#new%28source%3AHash%28_%2C_%29%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Instantiate a new <code><a href="Config.html">Config</a></code> instance from a <code>Hash</code>. Keys will be turned into <code>String</code>,
+and values other than <code>Bool</code> and <code>Int32</code> will be turned into <code>String</code>, as well.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L101" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="from(source:Hash(_,_))-class-method">
+      <div class="signature">
+        
+        def self.<strong>from</strong>(source : Hash(_, _))
+
+        <a class="method-permalink" href="#from%28source%3AHash%28_%2C_%29%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Create a new <code><a href="Config.html">Config</a></code> instance from a hash. Keys will be turned into <code>String</code>, and
+values, if they are a type other than <code>Bool</code>, <code>Int32</code>, or <code>String</code>, will be turned
+into <code>String</code> as well.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L70" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="from(source:IO,format:Format=Format::JSON)-class-method">
+      <div class="signature">
+        
+        def self.<strong>from</strong>(source : IO, format : <a href="Config/Format.html">Format</a> = <span class="t">Format</span><span class="t">::</span><span class="t">JSON</span>)
+
+        <a class="method-permalink" href="#from%28source%3AIO%2Cformat%3AFormat%3DFormat%3A%3AJSON%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Create a new <code><a href="Config.html">Config</a></code> instance from an <code>IO</code> object. The format of the data is assumed
+to be JSON unless otherwise specified. However, if the file can not be parsed as JSON
+data, the IO will be rewound, and the data will be parsed as YAML.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L77" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="from(source:Path)-class-method">
+      <div class="signature">
+        
+        def self.<strong>from</strong>(source : Path)
+
+        <a class="method-permalink" href="#from%28source%3APath%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Create a new <code><a href="Config.html">Config</a></code> instance from a <code>Path</code> specifing the file to read.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L89" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="from(source:String)-class-method">
+      <div class="signature">
+        
+        def self.<strong>from</strong>(source : String)
+
+        <a class="method-permalink" href="#from%28source%3AString%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Create a new <code><a href="Config.html">Config</a></code> instance from a <code>String</code> specifing the path of the file to read.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L95" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="data-instance-method">
+      <div class="signature">
+        
+        def <strong>data</strong>
+
+        <a class="method-permalink" href="#data-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Return the raw config data hash.</p>
+<pre><code class="language-crystal">config.data            <span class="c"># =&gt; {&quot;verbose&quot; =&gt; true}</span>
+pp tyoeof(config.data) <span class="c"># =&gt; Hash(String, Bool | Int32 | String)</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L63" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(target:Hash(_,_))-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(target : Hash(_, _))
+
+        <a class="method-permalink" href="#into%28target%3AHash%28_%2C_%29%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Insert the data from the this <code><a href="Config.html">Config</a></code>s hash into the <code>target</code> hash.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L111" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(target:IO)-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(target : IO)
+
+        <a class="method-permalink" href="#into%28target%3AIO%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Serialize the data from this <code><a href="Config.html">Config</a></code> instance into the <code>target</code> IO object.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L116" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(target:Path)-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(target : Path)
+
+        <a class="method-permalink" href="#into%28target%3APath%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Serialize the data from this <code><a href="Config.html">Config</a></code> instance into the <code>target</code> file specified by the <code>Path</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L126" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(target:String)-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(target : String)
+
+        <a class="method-permalink" href="#into%28target%3AString%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Serialize the data from this <code><a href="Config.html">Config</a></code> instance into the <code>target</code> file specified by the <code>String</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L131" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialization_format:Format-instance-method">
+      <div class="signature">
+        
+        def <strong>serialization_format</strong> : <a href="Config/Format.html">Format</a>
+
+        <a class="method-permalink" href="#serialization_format%3AFormat-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The default serialization format is <code>JSON</code>. If the config file reads from a file
+which cannot be read as JSON, but can be read as YAML, then the default format will
+change to <code>YAML</code>. This property can also be set manually if one wants to specify the
+format to use to serialize the config data.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L54" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialization_format=(serialization_format:Format)-instance-method">
+      <div class="signature">
+        
+        def <strong>serialization_format=</strong>(serialization_format : <a href="Config/Format.html">Format</a>)
+
+        <a class="method-permalink" href="#serialization_format%3D%28serialization_format%3AFormat%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The default serialization format is <code>JSON</code>. If the config file reads from a file
+which cannot be read as JSON, but can be read as YAML, then the default format will
+change to <code>YAML</code>. This property can also be set manually if one wants to specify the
+format to use to serialize the config data.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L54" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="macro-detail" class="anchor" href="#macro-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Detail
+  </h2>
+  
+    <div class="entry-detail" id="method_missing(call)-macro">
+      <div class="signature">
+        
+        macro <strong>method_missing</strong>(call)
+
+        <a class="method-permalink" href="#method_missing%28call%29-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>This macro writes the code for writing to or accessing the configuration hash.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/wyhaines/config.cr/blob/0f2b4f5683d6a146d23cc84a47c6a4ccd75a715e/src/config.cr#L136" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>

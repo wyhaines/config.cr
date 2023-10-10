@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.9.2">
+<meta name="crystal_docs.project_version" content="main">
+<meta name="crystal_docs.project_name" content="config">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="config">
+  <title>config main</title>
+  <script type="text/javascript">
+  CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          config
+        </a>
+      </h1>
+
+      <span class="project-version">
+        main
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="config/Config" data-name="config">
+      <a href="Config.html">Config</a>
+      
+        <ul>
+  
+  <li class=" " data-id="config/Config/ConfigTypes" data-name="config::configtypes">
+      <a href="Config/ConfigTypes.html">ConfigTypes</a>
+      
+    </li>
+  
+  <li class=" " data-id="config/Config/Format" data-name="config::format">
+      <a href="Config/Format.html">Format</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<p><img src="https://img.shields.io/github/actions/workflow/status/wyhaines/config.cr/ci.yml?branch=main&amp;style=for-the-badge&amp;logo=GitHub" alt="Topos Playground CI" />
+<a href="https://github.com/wyhaines/config.cr/releases"><img src="https://img.shields.io/github/release/wyhaines/config.cr.svg?style=for-the-badge" alt="GitHub release" /></a>
+<img src="https://img.shields.io/github/commits-since/wyhaines/config.cr/latest?style=for-the-badge" alt="GitHub commits since latest release (by SemVer)" /></p>
+<h1><a id="config" class="anchor" href="#config">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>config</h1>
+<p>An instance of <code><a href="Config.html">Config</a></code> provides a <code>Hash(String, String | Int | Bool)</code> that can be accessed via method calls. The method names are the keys of the hash. It also provides facilities to serialize a configuration out to a JSON or YAML file, and to read a JSON or YAML file as a configuration.</p>
+<h2><a id="full-documentation" class="anchor" href="#full-documentation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Full Documentation</h2>
+<p><a href="https://wyhaines.github.io/config.cr/">https://wyhaines.github.io/config.cr/</a></p>
+<h2><a id="installation" class="anchor" href="#installation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Installation</h2>
+<ol>
+<li>
+<p>Add the dependency to your <code>shard.yml</code>:</p>
+<pre><code class="language-yaml">dependencies:
+  config:
+    github: wyhaines/config.cr</code></pre>
+</li>
+<li>
+<p>Run <code>shards install</code></p>
+</li>
+</ol>
+<h2><a id="usage" class="anchor" href="#usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage</h2>
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;config&quot;</span></code></pre>
+<pre><code class="language-crystal">config <span class="o">=</span> <span class="t">Config</span>.new
+
+config.verbose <span class="o">=</span> <span class="n">true</span>
+pp config.verbose <span class="c"># =&gt; true</span>
+<span class="k">if</span> config.quiet?  <span class="c"># =&gt; false</span>
+  puts <span class="s">&quot;be quiet&quot;</span>
+<span class="k">else</span>
+  puts <span class="s">&quot;don&#39;t be quiet&quot;</span> <span class="c"># =&gt; &quot;don&#39;t be quiet&quot;</span>
+<span class="k">end</span></code></pre>
+<p>The <code>#data</code> method will return the raw data hash.</p>
+<pre><code class="language-crystal">pp config.data <span class="c"># =&gt; {&quot;verbose&quot; =&gt; true}</span></code></pre>
+<p>The <code><a href="Config.html">Config</a></code> class can be initialized from an <code>IO</code>, or a <code>Path</code>/<code>String</code> that points to a
+file. The file can be in either JSON or YAML format. The default format is JSON, but if
+the file cannot be read as JSON, but can be read as YAML, then the format will change to YAML.</p>
+<pre><code class="language-crystal">config <span class="o">=</span> <span class="t">Config</span>.from(<span class="s">&quot;config.json&quot;</span>) <span class="c"># {&quot;verbose&quot; : &quot;true&quot;}</span>
+pp config.verbose                   <span class="c"># =&gt; &quot;true&quot;</span>
+
+config <span class="o">=</span> <span class="t">Config</span>.from(<span class="s">&quot;config.yaml&quot;</span>) <span class="c"># {verbose : true}</span>
+pp config.verbose                   <span class="c"># =&gt; true</span>
+
+config <span class="o">=</span> <span class="t">Config</span>.from(<span class="s">&quot;config.txt&quot;</span>) <span class="c"># {also_verbose : true}</span>
+pp config.also_verbose             <span class="c"># =&gt; true</span>
+
+<span class="c">## Contributing</span>
+
+<span class="n">1</span>. <span class="t">Fork</span> it (<span class="o">&lt;</span>https<span class="n">://</span>github.com<span class="o">/</span>wyhaines<span class="o">/</span>config<span class="o">/</span>fork<span class="o">&gt;</span>)
+<span class="n">2</span>. <span class="t">Create</span> your feature branch (<span class="s">`git checkout -b my-new-feature`</span>)
+<span class="n">3</span>. <span class="t">Commit</span> your changes (<span class="s">`git commit -am &#39;Add some feature&#39;`</span>)
+<span class="n">4</span>. <span class="t">Push</span> to the branch (<span class="s">`git push origin my-new-feature`</span>)
+<span class="n">5</span>. <span class="t">Create</span> a new <span class="t">Pull</span> <span class="t">Request</span>
+
+<span class="c">## Contributors</span>
+
+<span class="o">-</span> [<span class="t">Kirk</span> <span class="t">Haines</span>](https<span class="n">://</span>github.com<span class="o">/</span>wyhaines) <span class="o">-</span> creator and maintainer</code></pre>
+</div>
+</body>
+</html>
